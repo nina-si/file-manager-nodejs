@@ -1,4 +1,5 @@
 import up from './modules/up.js';
+import cd from './modules/cd.js';
 import { stdin, stdout } from 'process';
 import logOs from './modules/os.js';
 
@@ -28,6 +29,13 @@ stdin.on('data', async (input) => {
       default: {
         if (operation.startsWith('os')) {
           logOs(operation.split('--')[1]);
+          break;
+        }
+
+        if (operation.startsWith('cd')) {
+          const newPath = operation.split(' ')[1];
+          const updatedPath = await cd(newPath, curPath);
+          if (updatedPath) curPath = updatedPath;
           break;
         }
       }
