@@ -1,9 +1,10 @@
+import * as os from 'os';
+import { stdin, stdout } from 'process';
 import up from './modules/up.js';
 import cd from './modules/cd.js';
-import { stdin, stdout } from 'process';
 import logOs from './modules/os.js';
 
-let curPath = process.cwd();
+let curPath = os.homedir();
 
 const userArgs = process.argv.filter((el) => el.includes('username'));
 const user = !!userArgs.length ? userArgs[0].split('=')[1] : 'Guest';
