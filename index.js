@@ -1,5 +1,6 @@
 import up from './modules/up.js';
 import { stdin, stdout } from 'process';
+import logOs from './modules/os.js';
 
 let curPath = process.cwd();
 
@@ -21,8 +22,14 @@ stdin.on('data', async (input) => {
 
       case 'up': {
         curPath = up(curPath);
-        console.log(curPath);
         break;
+      }
+
+      default: {
+        if (operation.startsWith('os')) {
+          logOs(operation.split('--')[1]);
+          break;
+        }
       }
     }
   } catch (err) {
