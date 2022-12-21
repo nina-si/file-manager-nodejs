@@ -2,6 +2,7 @@ import * as os from 'os';
 import { stdin, stdout } from 'process';
 import up from './modules/up.js';
 import cd from './modules/cd.js';
+import add from './modules/add.js';
 import logOs from './modules/os.js';
 
 let curPath = os.homedir();
@@ -37,6 +38,12 @@ stdin.on('data', async (input) => {
           const newPath = operation.split(' ')[1];
           const updatedPath = await cd(newPath, curPath);
           if (updatedPath) curPath = updatedPath;
+          break;
+        }
+
+        if (operation.startsWith('add')) {
+          const fileName = operation.split(' ')[1];
+          add(curPath, fileName);
           break;
         }
       }
