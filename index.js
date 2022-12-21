@@ -3,6 +3,7 @@ import { stdin, stdout } from 'process';
 import up from './modules/up.js';
 import cd from './modules/cd.js';
 import add from './modules/add.js';
+import copy from './modules/cp.js';
 import logOs from './modules/os.js';
 
 let curPath = os.homedir();
@@ -44,6 +45,13 @@ stdin.on('data', async (input) => {
         if (operation.startsWith('add')) {
           const fileName = operation.split(' ')[1];
           add(curPath, fileName);
+          break;
+        }
+
+        if (operation.startsWith('cp')) {
+          const pathToFile = operation.split(' ')[1];
+          const pathToNewDir = operation.split(' ')[2];
+          copy(curPath, pathToFile, pathToNewDir);
           break;
         }
       }
