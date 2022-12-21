@@ -3,6 +3,7 @@ import { stdin, stdout } from 'process';
 import up from './modules/up.js';
 import cd from './modules/cd.js';
 import add from './modules/add.js';
+import remove from './modules/rm.js';
 import copy from './modules/cp.js';
 import logOs from './modules/os.js';
 
@@ -52,6 +53,12 @@ stdin.on('data', async (input) => {
           const pathToFile = operation.split(' ')[1];
           const pathToNewDir = operation.split(' ')[2];
           copy(curPath, pathToFile, pathToNewDir);
+          break;
+        }
+
+        if (operation.startsWith('rm')) {
+          const pathToFile = operation.split(' ')[1];
+          remove(curPath, pathToFile);
           break;
         }
       }
