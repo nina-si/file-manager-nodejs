@@ -1,5 +1,6 @@
 import * as os from 'os';
 import { stdin, stdout } from 'process';
+import list from './modules/ls.js';
 import up from './modules/up.js';
 import cd from './modules/cd.js';
 import add from './modules/add.js';
@@ -23,6 +24,11 @@ stdin.on('data', async (input) => {
       case '.exit': {
         stdout.write(`\nThank you for using File Manager, ${user}, goodbye!`);
         process.exit();
+      }
+
+      case 'ls': {
+        list(curPath);
+        break;
       }
 
       case 'up': {
