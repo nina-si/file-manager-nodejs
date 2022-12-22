@@ -16,7 +16,7 @@ import { FAILED_MESSAGE, INVALID_MESSAGE } from './constants.js';
 
 let curPath = os.homedir();
 
-const userArgs = process.argv.filter((el) => el.includes('username'));
+const userArgs = process.argv.filter((el) => el.includes('--username'));
 const user = !!userArgs.length ? userArgs[0].split('=')[1] : 'Guest';
 
 stdout.write(`Welcome to the File Manager, ${user}!\n`);
@@ -50,14 +50,21 @@ stdin.on('data', async (input) => {
 
         if (operation.startsWith('cd')) {
           const newPath = operation.split(' ')[1];
-          const updatedPath = await cd(newPath, curPath);
-          if (updatedPath) curPath = updatedPath;
+          if (!!newPath) {
+            const updatedPath = await cd(newPath, curPath);
+            if (updatedPath) curPath = updatedPath;
+          } else {
+            console.log(INVALID_MESSAGE);
+          }
           break;
         }
 
         if (operation.startsWith('add')) {
           const fileName = operation.split(' ')[1];
-          add(curPath, fileName);
+          if (!!fileName) add(curPath, fileName);
+          else {
+            console.log(INVALID_MESSAGE);
+          }
           break;
         }
 
@@ -73,7 +80,10 @@ stdin.on('data', async (input) => {
         if (operation.startsWith('cp')) {
           const pathToFile = operation.split(' ')[1];
           const pathToNewDir = operation.split(' ')[2];
-          copy(curPath, pathToFile, pathToNewDir);
+          if (!pathToFile || !pathToNewDir) console.log(INVALID_MESSAGE);
+          else {
+            copy(curPath, pathToFile, pathToNewDir);
+          }
           break;
         }
 
@@ -90,7 +100,10 @@ stdin.on('data', async (input) => {
 
         if (operation.startsWith('rm')) {
           const pathToFile = operation.split(' ')[1];
-          remove(curPath, pathToFile);
+          if (!pathToFile) console.log(INVALID_MESSAGE);
+          else {
+            remove(curPath, pathToFile);
+          }
           break;
         }
 
@@ -134,4 +147,9 @@ stdin.on('data', async (input) => {
   } finally {
     stdout.write(`\nYou are currently in ${curPath}\n`);
   }
+});
+
+process.on('SIGINT', () => {
+  stdout.write(`\nThank you for using File Manager, ${user}, goodbye!`);
+  process.exit();
 });

@@ -1,5 +1,6 @@
 import * as os from 'os';
 import { stdout } from 'process';
+import { INVALID_MESSAGE } from '../constants.js';
 
 const logOs = (operation) => {
   switch (operation) {
@@ -32,7 +33,7 @@ const logOs = (operation) => {
       break;
     }
     default: {
-      console.log('Invalid input');
+      console.log(INVALID_MESSAGE);
       break;
     }
   }

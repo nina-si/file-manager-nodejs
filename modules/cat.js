@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { stdout } from 'process';
-import { FAILED_MESSAGE, INVALID_MESSAGE } from '../constants.js';
+import { FAILED_MESSAGE } from '../constants.js';
 import cd from './cd.js';
 
 const cat = async (curPath, filePath) => {
