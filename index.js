@@ -7,6 +7,7 @@ import add from './modules/add.js';
 import cat from './modules/cat.js';
 import remove from './modules/rm.js';
 import copy from './modules/cp.js';
+import rename from './modules/rn.js';
 import logOs from './modules/os.js';
 import { FAILED_MESSAGE, INVALID_MESSAGE } from './constants.js';
 
@@ -73,6 +74,17 @@ stdin.on('data', async (input) => {
           break;
         }
 
+        if (operation.startsWith('rn')) {
+          const pathToFile = operation.split(' ')[1];
+          const newName = operation.split(' ')[2];
+          if (!!pathToFile && !!newName) {
+            rename(curPath, pathToFile, newName);
+          } else {
+            stdout.write(INVALID_MESSAGE);
+          }
+          break;
+        }
+
         if (operation.startsWith('rm')) {
           const pathToFile = operation.split(' ')[1];
           remove(curPath, pathToFile);
@@ -82,7 +94,7 @@ stdin.on('data', async (input) => {
         }
       }
     }
-  } catch (err) {
+  } catch {
     stdout.write(FAILED_MESSAGE);
   } finally {
     stdout.write(`\nYou are currently in ${curPath}\n`);
