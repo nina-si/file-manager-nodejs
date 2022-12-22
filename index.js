@@ -4,6 +4,7 @@ import list from './modules/ls.js';
 import up from './modules/up.js';
 import cd from './modules/cd.js';
 import add from './modules/add.js';
+import cat from './modules/cat.js';
 import remove from './modules/rm.js';
 import copy from './modules/cp.js';
 import logOs from './modules/os.js';
@@ -53,6 +54,15 @@ stdin.on('data', async (input) => {
         if (operation.startsWith('add')) {
           const fileName = operation.split(' ')[1];
           add(curPath, fileName);
+          break;
+        }
+
+        if (operation.startsWith('cat')) {
+          const filePath = operation.split(' ')[1];
+          if (!!filePath) cat(curPath, filePath);
+          else {
+            stdout.write(INVALID_MESSAGE);
+          }
           break;
         }
 

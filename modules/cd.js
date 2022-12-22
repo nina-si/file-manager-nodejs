@@ -10,7 +10,7 @@ const cd = async (newPath, currentDir) => {
     try {
       await fsPromises.access(updatedPath);
       resolve(updatedPath);
-    } catch (err) {
+    } catch {
       reject('Error');
     }
   });
