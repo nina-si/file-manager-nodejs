@@ -7,6 +7,7 @@ import add from './modules/add.js';
 import remove from './modules/rm.js';
 import copy from './modules/cp.js';
 import logOs from './modules/os.js';
+import { FAILED_MESSAGE, INVALID_MESSAGE } from './constants.js';
 
 let curPath = os.homedir();
 
@@ -66,11 +67,13 @@ stdin.on('data', async (input) => {
           const pathToFile = operation.split(' ')[1];
           remove(curPath, pathToFile);
           break;
+        } else {
+          stdout.write(INVALID_MESSAGE);
         }
       }
     }
   } catch (err) {
-    console.log(err);
+    stdout.write(FAILED_MESSAGE);
   } finally {
     stdout.write(`\nYou are currently in ${curPath}\n`);
   }
