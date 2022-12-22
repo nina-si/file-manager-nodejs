@@ -9,6 +9,7 @@ import remove from './modules/rm.js';
 import copy from './modules/cp.js';
 import rename from './modules/rn.js';
 import logOs from './modules/os.js';
+import hash from './modules/hash.js';
 import { FAILED_MESSAGE, INVALID_MESSAGE } from './constants.js';
 
 let curPath = os.homedir();
@@ -88,6 +89,16 @@ stdin.on('data', async (input) => {
         if (operation.startsWith('rm')) {
           const pathToFile = operation.split(' ')[1];
           remove(curPath, pathToFile);
+          break;
+        }
+
+        if (operation.startsWith('hash')) {
+          const pathToFile = operation.split(' ')[1];
+          if (!!pathToFile) {
+            await hash(curPath, pathToFile);
+          } else {
+            stdout.write(INVALID_MESSAGE);
+          }
           break;
         } else {
           stdout.write(INVALID_MESSAGE);
