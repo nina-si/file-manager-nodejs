@@ -10,6 +10,7 @@ import copy from './modules/cp.js';
 import rename from './modules/rn.js';
 import logOs from './modules/os.js';
 import hash from './modules/hash.js';
+import compress from './modules/compress.js';
 import { FAILED_MESSAGE, INVALID_MESSAGE } from './constants.js';
 
 let curPath = os.homedir();
@@ -96,6 +97,16 @@ stdin.on('data', async (input) => {
           const pathToFile = operation.split(' ')[1];
           if (!!pathToFile) {
             await hash(curPath, pathToFile);
+          } else {
+            stdout.write(INVALID_MESSAGE);
+          }
+          break;
+        }
+        if (operation.startsWith('compress')) {
+          const pathToFile = operation.split(' ')[1];
+          const destination = operation.split(' ')[2];
+          if (!!pathToFile && !!destination) {
+            await compress(curPath, pathToFile, destination);
           } else {
             stdout.write(INVALID_MESSAGE);
           }
