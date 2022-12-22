@@ -1,21 +1,24 @@
 import fsPromises from 'fs/promises';
+import { FAILED_MESSAGE } from '../constants.js';
 
 const list = async (curPath) => {
   try {
     const files = await fsPromises.readdir(curPath, { withFileTypes: true });
     if (files.length) {
-      files.forEach((file, index) =>
-        console.log(
-          `| ${index} | ${file.name} |${
-            file.isDirectory() ? ' directory ' : ' file '
-          }|`
-        )
-      );
+      const data = files
+        .map((file) => {
+          return {
+            name: file.name,
+            type: file.isFile() ? 'file' : 'directory',
+          };
+        })
+        .sort((a, b) => a.type.localeCompare(b.type) || b.name - a.name);
+      console.table(data);
     } else {
-      console.log('There are no files in current directory');
+      console.log('There are no files in current directory\n');
     }
-  } catch (e) {
-    console.log(e);
+  } catch {
+    console.log(FAILED_MESSAGE);
   }
 };
 
