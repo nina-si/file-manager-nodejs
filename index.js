@@ -11,6 +11,7 @@ import rename from './modules/rn.js';
 import logOs from './modules/os.js';
 import hash from './modules/hash.js';
 import compress from './modules/compress.js';
+import decompress from './modules/decompress.js';
 import { FAILED_MESSAGE, INVALID_MESSAGE } from './constants.js';
 
 let curPath = os.homedir();
@@ -102,11 +103,23 @@ stdin.on('data', async (input) => {
           }
           break;
         }
+
         if (operation.startsWith('compress')) {
           const pathToFile = operation.split(' ')[1];
           const destination = operation.split(' ')[2];
           if (!!pathToFile && !!destination) {
             await compress(curPath, pathToFile, destination);
+          } else {
+            stdout.write(INVALID_MESSAGE);
+          }
+          break;
+        }
+
+        if (operation.startsWith('decompress')) {
+          const pathToArchive = operation.split(' ')[1];
+          const destination = operation.split(' ')[2];
+          if (!!pathToArchive && !!destination) {
+            await decompress(curPath, pathToArchive, destination);
           } else {
             stdout.write(INVALID_MESSAGE);
           }
